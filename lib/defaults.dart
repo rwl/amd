@@ -22,7 +22,7 @@ part of edu.ufl.cise.amd;
 
 //public class Damd_defaults extends Damd_internal {
 
-void defaults(List<double> Control)
+void defaults(List<num> Control)
 {
 	int i ;
 

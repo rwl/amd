@@ -35,13 +35,13 @@ int order (int n,
 		final List<int> Ap,
 		final List<int> Ai,
 		List<int> P,
-		List<double> Control,
-		List<double> Info)
+		List<num> Control,
+		List<num> Info)
 {
 	List<int> Len, Pinv, Rp, Ri, Cp, Ci ;
 	int nz, i, info, status, ok ;
 	int nzaat, slen ;
-	double mem = 0 ;
+	double mem = 0.0 ;
 
 	if (!NDEBUG)
 	{
@@ -84,15 +84,15 @@ int order (int n,
 	}
 
 	/* FIXME: check if n or nz will cause size_t overflow */
-	if (n >= Int_MAX //SIZE_T_MAX / sizeof (int)
+	/*if (n >= Int_MAX //SIZE_T_MAX / sizeof (int)
 	 || nz >= Int_MAX) //SIZE_T_MAX / sizeof (int))
 	{
 	if (Info [AMD_STATUS] == AMD_OUT_OF_MEMORY)
 	return (AMD_OUT_OF_MEMORY) ;	    /* problem too large */
-	}
+	}*/
 
 	/* check the input matrix:	AMD_OK, AMD_INVALID, or AMD_OK_BUT_JUMBLED */
-	status = amd_valid (n, n, Ap, Ai) ;
+	status = valid (n, n, Ap, Ai) ;
 
 	if (status == AMD_INVALID)
 	{
@@ -133,7 +133,7 @@ int order (int n,
 	return (AMD_OUT_OF_MEMORY) ;
 	}
 	/* use Len and Pinv as workspace to create R = A' */
-	amd_preprocess (n, Ap, Ai, Rp, Ri, Len, Pinv) ;
+	preprocess (n, Ap, Ai, Rp, Ri, Len, Pinv) ;
 	Cp = Rp ;
 	Ci = Ri ;
 	}
@@ -150,8 +150,8 @@ int order (int n,
 	/* determine the symmetry and count off-diagonal nonzeros in A+A' */
 	/* --------------------------------------------------------------------- */
 
-	nzaat = amd_aat (n, Cp, Ci, Len, P, Info) ;
-	AMD_DEBUG1 ("nzaat: %d\n", nzaat) ;
+	nzaat = aat (n, Cp, Ci, Len, P, Info) ;
+	AMD_DEBUG1 ("nzaat: $nzaat\n") ;
 	ASSERT ((MAX (nz-n, 0) <= nzaat) && (nzaat <= 2 * nz)) ;
 
 	/* --------------------------------------------------------------------- */
@@ -160,7 +160,7 @@ int order (int n,
 
 	slen = nzaat ;			/* space for matrix */
 	ok = ((slen + nzaat/5) >= slen) ? 1 : 0 ; 	/* check for size_t overflow */
-	slen += nzaat/5 ;			/* add elbow room */
+	slen += (nzaat~/5) ;			/* add elbow room */
 	for (i = 0 ; ok != 0 && i < 7 ; i++)
 	{
 	ok = ((slen + n) > slen) ?  1 : 0;	/* check for size_t overflow */
@@ -168,14 +168,14 @@ int order (int n,
 	}
 	mem += slen ;
 	//ok = (ok != 0 && (slen < Int_MAX)) ? 1 : 0 ;  /* check for overflow */
-	ok = (ok != 0 && (slen < Int_MAX)) ? 1 : 0 ;  /* S[i] for int i must be OK */
+	ok = (ok != 0/* && (slen < Int_MAX)*/) ? 1 : 0 ;  /* S[i] for int i must be OK */
 	try
 	{
 	if (ok != 0)
 	{
 	//S = new int[slen] ;  // *** Workspace unused in AMDJ ***
 	}
-	AMD_DEBUG1 ("slen %d\n", slen) ;
+	AMD_DEBUG1 ("slen $slen\n") ;
 	} on OutOfMemoryError catch (e) {
 	/* :: out of memory :: (or problem too large) */
 	Rp = null ;

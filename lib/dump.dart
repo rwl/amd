@@ -41,7 +41,7 @@ void debug_init (String s)
 {
 	if (!NDEBUG)
 	{
-		File f ;
+		/*File f ;
 		f = new File("debug.amd") ;
 		if (!f.exists())
 		{
@@ -65,7 +65,8 @@ void debug_init (String s)
 		if (AMD_debug >= 0)
 		{
 		System.out.printf ("%s: AMD_debug_init, D= "+ID+"\n", s, AMD_debug) ;
-		}
+		}*/
+	  AMD_debug = -999 ;
 	}
 }
 
@@ -99,7 +100,7 @@ void dump (int n, List<int> Pe, List<int> Iw, List<int> Len,
 
 		if (AMD_debug < 0) return ;
 		ASSERT (pfree <= iwlen) ;
-		AMD_DEBUG3 ("\nAMD dump, pfree: "+ID+"\n", pfree) ;
+		AMD_DEBUG3 ("\nAMD dump, pfree: $pfree\n") ;
 		for (i = 0 ; i < n ; i++)
 		{
 		pe = Pe [i] ;
@@ -112,7 +113,7 @@ void dump (int n, List<int> Pe, List<int> Iw, List<int> Len,
 		{
 			if (nv == 0)
 			{
-			AMD_DEBUG3 ("\nI "+ID+": nonprincipal:    ", i) ;
+			AMD_DEBUG3 ("\nI $i: nonprincipal:    ") ;
 			ASSERT (elen == EMPTY) ;
 			if (pe == EMPTY)
 			{
@@ -122,13 +123,13 @@ void dump (int n, List<int> Pe, List<int> Iw, List<int> Len,
 			else
 			{
 				ASSERT (pe < EMPTY) ;
-				AMD_DEBUG3 (" i "+ID+" -> parent "+ID+"\n", i, FLIP (Pe[i]));
+				AMD_DEBUG3 (" i $i -> parent ${FLIP (Pe[i])}\n");
 			}
 			}
 			else
 			{
-			AMD_DEBUG3 ("\nI "+ID+": active principal supervariable:\n",i);
-			AMD_DEBUG3 ("   nv(i): "+ID+"  Flag: %d\n", nv, (nv < 0) ? 1 : 0) ;
+			AMD_DEBUG3 ("\nI $i: active principal supervariable:\n");
+			AMD_DEBUG3 ("   nv(i): $nv  Flag: ${(nv < 0) ? 1 : 0}\n") ;
 			ASSERT (elen >= 0) ;
 			ASSERT (nv > 0 && pe >= 0) ;
 			p = pe ;
@@ -138,7 +139,7 @@ void dump (int n, List<int> Pe, List<int> Iw, List<int> Len,
 			for (k = 0 ; k < len ; k++)
 			{
 				j = Iw [p] ;
-				AMD_DEBUG3 ("  "+ID+"", j) ;
+				AMD_DEBUG3 ("  $j") ;
 				ASSERT (j >= 0 && j < n) ;
 				if (k == elen-1) AMD_DEBUG3 ((" : ")) ;
 				p++ ;
@@ -151,13 +152,13 @@ void dump (int n, List<int> Pe, List<int> Iw, List<int> Len,
 			e = i ;
 			if (w == 0)
 			{
-			AMD_DEBUG3 ("\nE "+ID+": absorbed element: w "+ID+"\n", e, w) ;
+			AMD_DEBUG3 ("\nE $e: absorbed element: w $w\n") ;
 			ASSERT (nv > 0 && pe < 0) ;
-			AMD_DEBUG3 (" e "+ID+" -> parent "+ID+"\n", e, FLIP (Pe [e])) ;
+			AMD_DEBUG3 (" e $e -> parent ${FLIP (Pe [e])}\n") ;
 			}
 			else
 			{
-			AMD_DEBUG3 ("\nE "+ID+": unabsorbed element: w "+ID+"\n", e, w) ;
+			AMD_DEBUG3 ("\nE $e: unabsorbed element: w $w\n") ;
 			ASSERT (nv > 0 && pe >= 0) ;
 			p = pe ;
 			AMD_DEBUG3 ((" : ")) ;
@@ -165,7 +166,7 @@ void dump (int n, List<int> Pe, List<int> Iw, List<int> Len,
 			for (k = 0 ; k < len ; k++)
 			{
 				j = Iw [p] ;
-				AMD_DEBUG3 ("  "+ID+"", j) ;
+				AMD_DEBUG3 ("  $j") ;
 				ASSERT (j >= 0 && j < n) ;
 				p++ ;
 			}
@@ -183,11 +184,10 @@ void dump (int n, List<int> Pe, List<int> Iw, List<int> Len,
 		{
 			if (Head [deg] == EMPTY) continue ;
 			ilast = EMPTY ;
-			AMD_DEBUG3 (ID+": \n", deg) ;
+			AMD_DEBUG3 ("$deg: \n") ;
 			for (i = Head [deg] ; i != EMPTY ; i = Next [i])
 			{
-			AMD_DEBUG3 ("   "+ID+" : next "+ID+" last "+ID+" deg "+ID+"\n",
-				i, Next [i], Last [i], Degree [i]) ;
+			AMD_DEBUG3 ("   $i : next ${Next [i]} last ${Last [i]} deg ${Degree [i]}\n") ;
 			ASSERT (i >= 0 && i < n && ilast == Last [i] &&
 				deg == Degree [i]) ;
 			cnt += Nv [i] ;

@@ -80,16 +80,15 @@ void postorder (int nn, List<int> Parent, List<int> Nv,
 		{
 		    if (Nv [j] > 0)
 		    {
-			AMD_DEBUG1 ( ""+ID+" :  nels "+ID+" npiv "+ID+" size "+ID+
-			    " parent "+ID+" maxfr "+ID+"\n", j, nels,
-			    Nv [j], Fsize [j], Parent [j], Fsize [j]) ;
+			AMD_DEBUG1 ( "$j :  nels $nels npiv ${Nv [j]} size ${Fsize [j]}"+
+			    " parent ${Parent [j]} maxfr ${Fsize [j]}\n") ;
 			/* this is an element */
 			/* dump the link list of children */
 			nchild = 0 ;
 			AMD_DEBUG1 ("    Children: ") ;
 			for (ff = Child [j] ; ff != EMPTY ; ff = Sibling [ff])
 			{
-			    AMD_DEBUG1 (ID+" ", ff) ;
+			    AMD_DEBUG1 ("$ff ") ;
 			    ASSERT (Parent [ff] == j) ;
 			    nchild++ ;
 			    ASSERT (nchild < nn) ;
@@ -118,12 +117,12 @@ void postorder (int nn, List<int> Parent, List<int> Nv,
 
 		if (!NDEBUG)
 		{
-		    AMD_DEBUG1 ("Before partial sort, element "+ID+"\n", i) ;
+		    AMD_DEBUG1 ("Before partial sort, element $i\n") ;
 		    nchild = 0 ;
 		    for (f = Child [i] ; f != EMPTY ; f = Sibling [f])
 		    {
 			ASSERT (f >= 0 && f < nn) ;
-			AMD_DEBUG1 ("      f: "+ID+"  size: "+ID+"\n", f, Fsize [f]) ;
+			AMD_DEBUG1 ("      f: $f  size: ${Fsize [f]}\n") ;
 			nchild++ ;
 			ASSERT (nchild <= nn) ;
 		    }
@@ -151,8 +150,8 @@ void postorder (int nn, List<int> Parent, List<int> Nv,
 
 	    fnext = Sibling [bigf] ;
 
-	    AMD_DEBUG1 ("bigf "+ID+" maxfrsize "+ID+" bigfprev "+ID+" fnext "+ID+
-		" fprev "+ID+"\n", bigf, maxfrsize, bigfprev, fnext, fprev) ;
+	    AMD_DEBUG1 ("bigf $bigf maxfrsize $maxfrsize bigfprev $bigfprev fnext $fnext"+
+		" fprev $fprev\n") ;
 
 	    if (fnext != EMPTY)
 	    {
@@ -179,11 +178,11 @@ void postorder (int nn, List<int> Parent, List<int> Nv,
 
 	    if (!NDEBUG)
 	    {
-		    AMD_DEBUG1 ("After partial sort, element "+ID+"\n", i) ;
+		    AMD_DEBUG1 ("After partial sort, element $i\n") ;
 		    for (f = Child [i] ; f != EMPTY ; f = Sibling [f])
 		    {
 			ASSERT (f >= 0 && f < nn) ;
-			AMD_DEBUG1 ("        "+ID+"  "+ID+"\n", f, Fsize [f]) ;
+			AMD_DEBUG1 ("        $f  ${Fsize [f]}\n") ;
 			ASSERT (Nv [f] > 0) ;
 			nchild-- ;
 		    }
@@ -208,15 +207,15 @@ void postorder (int nn, List<int> Parent, List<int> Nv,
     {
 	if (Parent [i] == EMPTY && Nv [i] > 0)
 	{
-	    AMD_DEBUG1 ("Root of assembly tree "+ID+"\n", i) ;
+	    AMD_DEBUG1 ("Root of assembly tree $i\n") ;
 	    if (!NDEBUG)
 	    {
-	    	k = amd_post_tree (i, k, Child, Sibling, Order,
+	    	k = post_tree (i, k, Child, Sibling, Order,
 	    			Stack) ;
 	    }
 	    else
 	    {
-	    	k = amd_post_tree (i, k, Child, Sibling, Order,
+	    	k = post_tree (i, k, Child, Sibling, Order,
 	    			Stack, nn) ;
 	    }
 	}

@@ -57,7 +57,7 @@ part of edu.ufl.cise.amd;
  */
 amd_1(int n, List<int> Ap, final List<int> Ai,
 		List<int> P, List<int> Pinv, List<int> Len, int slen,
-		List<double> Control, List<double> Info)
+		List<num> Control, List<num> Info)
 {
 	int i, j, k, p, pfree, iwlen, pj, p1, p2, pj2;
 	List<int> Iw, Pe, Nv, Head, Elen, Degree, W, Sp, Tp ;//, s;
@@ -77,7 +77,7 @@ amd_1(int n, List<int> Ap, final List<int> Ai,
 	W = new List<int>(n) ;
 	Iw = new List<int>(iwlen) ;
 
-	ASSERT (amd_valid (n, n, Ap, Ai) == AMD_OK) ;
+	ASSERT (valid (n, n, Ap, Ai) == AMD_OK) ;
 
 	/* construct the pointers for A+A' */
 	Sp = Nv ;			/* use Nv and W as workspace for Sp and Tp [ */
@@ -103,7 +103,7 @@ amd_1(int n, List<int> Ap, final List<int> Ai,
 
 	for (k = 0 ; k < n ; k++)
 	{
-	AMD_DEBUG1 ("Construct row/column k= "+ID+" of A+A'\n", k) ;
+	AMD_DEBUG1 ("Construct row/column k= $k of A+A'\n") ;
 	p1 = Ap [k] ;
 	p2 = Ap [k+1] ;
 

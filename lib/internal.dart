@@ -32,7 +32,7 @@ bool NDEBUG = true ;
  */
 bool NPRINT = true ;
 
-final int Int_MAX = int.MAX_VALUE;
+//final int Int_MAX = int.MAX_VALUE;
 
 /* FLIP is a "negation about -1", and is used to mark an integer i that is
  * normally non-negative.  FLIP (EMPTY) is EMPTY.  FLIP of a number > EMPTY
@@ -52,7 +52,7 @@ int UNFLIP (int i)
 
 double sqrt (double a)
 {
-	return Math.sqrt (a) ;
+	return math.sqrt (a) ;
 }
 
 /*int MAX(int a, int b)

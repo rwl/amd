@@ -80,136 +80,137 @@ List<int> Ai = [
 
 
 main() {
+  test('', () {
+  	List<int> P = new List<int>(24) ;
+  	List<int> Pinv = new List<int>(24) ;
+  	int i, j, k, jnew, p, inew, result ;
+  	List<num> Control = new List<num>(AMD_CONTROL) ;
+  	List<num> Info = new List<num>(AMD_INFO) ;
+  	List<List<String>> A = new List<List<String>>(24);//[24] ;
+    for (i = 0 ; i < n ; i++) A[i] = new List<String>(24);
 
-	List<int> P = new List<int>(24) ;
-	List<int> Pinv = new List<int>(24) ;
-	int i, j, k, jnew, p, inew, result ;
-	List<double> Control = new List<double>(AMD_CONTROL) ;
-	List<double> Info = new List<double>(AMD_INFO) ;
-	List<List<String>> A = new List<List<String>>(24);//[24] ;
-  for (i = 0 ; i < n ; i++) A[i] = new List<String>(24);
+  	NPRINT = false;
+  	//Damd_internal.NDEBUG = false;
+  	//Damd.AMD_debug = 1;
 
-	NPRINT = false;
-	//Damd_internal.NDEBUG = false;
-	//Damd.AMD_debug = 1;
+  	/* here is an example of how to use AMD_VERSION.  This code will work in
+  	 * any version of AMD. */
+  	if (AMD_VERSION != 0 && AMD_VERSION >= AMD_VERSION_CODE(1,2))
+  	{
+  		print ("AMD version $AMD_MAIN_VERSION.$AMD_SUB_VERSION, date: $AMD_DATE\n") ;
+  	} else {
+  		print ("AMD version: 1.1 or earlier\n") ;
+  	}
 
-	/* here is an example of how to use AMD_VERSION.  This code will work in
-	 * any version of AMD. */
-	if (AMD_VERSION != 0 && AMD_VERSION >= AMD_VERSION_CODE(1,2))
-	{
-		print ("AMD version $AMD_MAIN_VERSION.$AMD_SUB_VERSION, date: $AMD_DATE\n") ;
-	} else {
-		print ("AMD version: 1.1 or earlier\n") ;
-	}
+  	print ("AMD demo, with the 24-by-24 Harwell/Boeing matrix, can_24:\n") ;
 
-	print ("AMD demo, with the 24-by-24 Harwell/Boeing matrix, can_24:\n") ;
+  	/* get the default parameters, and print them */
+  	defaults (Control) ;
+  	control  (Control) ;
 
-	/* get the default parameters, and print them */
-	defaults (Control) ;
-	control  (Control) ;
+  	/* print the input matrix */
+  	nz = Ap [n] ;
+  	print ("\nInput matrix:  $n-by-$n, with $nz entries.\n" +
+  			"   Note that for a symmetric matrix such as this one, only the\n" +
+  			"   strictly lower or upper triangular parts would need to be\n" +
+  			"   passed to AMD, since AMD computes the ordering of A+A'.  The\n" +
+  			"   diagonal entries are also not needed, since AMD ignores them.\n") ;
+  	for (j = 0 ; j < n ; j++)
+  	{
+  		print ("\nColumn: $j, number of entries: ${Ap [j+1] - Ap [j]}, with row indices in" +
+  				" Ai [${Ap [j]} ... ${Ap [j+1]-1}]:\n    row indices:") ;
+  	for (p = Ap [j] ; p < Ap [j+1] ; p++)
+  	{
+  		i = Ai [p] ;
+  		print (" $i") ;
+  	}
+  	print ("\n") ;
+  	}
 
-	/* print the input matrix */
-	nz = Ap [n] ;
-	print ("\nInput matrix:  $n-by-$n, with $nz entries.\n" +
-			"   Note that for a symmetric matrix such as this one, only the\n" +
-			"   strictly lower or upper triangular parts would need to be\n" +
-			"   passed to AMD, since AMD computes the ordering of A+A'.  The\n" +
-			"   diagonal entries are also not needed, since AMD ignores them.\n") ;
-	for (j = 0 ; j < n ; j++)
-	{
-		print ("\nColumn: $j, number of entries: ${Ap [j+1] - Ap [j]}, with row indices in" +
-				" Ai [${Ap [j]} ... ${Ap [j+1]-1}]:\n    row indices:") ;
-	for (p = Ap [j] ; p < Ap [j+1] ; p++)
-	{
-		i = Ai [p] ;
-		print (" $i") ;
-	}
-	print ("\n") ;
-	}
+  	/* print a character plot of the input matrix.  This is only reasonable
+  	 * because the matrix is small. */
+  	print ("\nPlot of input matrix pattern:\n") ;
+  	for (j = 0 ; j < n ; j++)
+  	{
+  		for (i = 0 ; i < n ; i++) A [i][j] = '.' ;
+  		for (p = Ap [j] ; p < Ap [j+1] ; p++)
+  		{
+  			i = Ai [p] ;
+  			A [i][j] = 'X' ;
+  		}
+  	}
+  	print ("    ") ;
+  	for (j = 0 ; j < n ; j++) print (" ${j % 10}") ;
+  	print ("\n") ;
+  	for (i = 0 ; i < n ; i++)
+  	{
+  		print ("$i: ") ;
+  		for (j = 0 ; j < n ; j++)
+  		{
+  		    print (" ${A [i][j]}") ;
+  		}
+  		print ("\n") ;
+  	}
 
-	/* print a character plot of the input matrix.  This is only reasonable
-	 * because the matrix is small. */
-	print ("\nPlot of input matrix pattern:\n") ;
-	for (j = 0 ; j < n ; j++)
-	{
-		for (i = 0 ; i < n ; i++) A [i][j] = '.' ;
-		for (p = Ap [j] ; p < Ap [j+1] ; p++)
-		{
-			i = Ai [p] ;
-			A [i][j] = 'X' ;
-		}
-	}
-	print ("    ") ;
-	for (j = 0 ; j < n ; j++) print (" ${j % 10}") ;
-	print ("\n") ;
-	for (i = 0 ; i < n ; i++)
-	{
-		print ("$i: ") ;
-		for (j = 0 ; j < n ; j++)
-		{
-		    print (" ${A [i][j]}") ;
-		}
-		print ("\n") ;
-	}
+  	/* order the matrix */
+  	result = order (n, Ap, Ai, P, Control, Info) ;
+  	print ("return value from amd_order: $result (should be $AMD_OK)\n") ;
 
-	/* order the matrix */
-	result = order (n, Ap, Ai, P, Control, Info) ;
-	print ("return value from amd_order: $result (should be $AMD_OK)\n") ;
+  	/* print the statistics */
+  	info (Info) ;
 
-	/* print the statistics */
-	info (Info) ;
+  	if (result != AMD_OK)
+  	{
+  		print ("AMD failed\n") ;
+  		fail('') ;
+  	}
 
-	if (result != AMD_OK)
-	{
-		print ("AMD failed\n") ;
-		fail('') ;
-	}
+  	/* print the permutation vector, P, and compute the inverse permutation */
+  	print ("Permutation vector:\n") ;
+  	for (k = 0 ; k < n ; k++)
+  	{
+  		/* row/column j is the kth row/column in the permuted matrix */
+  		j = P [k] ;
+  		Pinv [j] = k ;
+  		print (" $j") ;
+  	}
+  	print ("\n\n") ;
 
-	/* print the permutation vector, P, and compute the inverse permutation */
-	print ("Permutation vector:\n") ;
-	for (k = 0 ; k < n ; k++)
-	{
-		/* row/column j is the kth row/column in the permuted matrix */
-		j = P [k] ;
-		Pinv [j] = k ;
-		print (" $j") ;
-	}
-	print ("\n\n") ;
+  	print ("Inverse permutation vector:\n") ;
+  	for (j = 0 ; j < n ; j++)
+  	{
+  		k = Pinv [j] ;
+  		print (" $k") ;
+  	}
+  	print ("\n\n") ;
 
-	print ("Inverse permutation vector:\n") ;
-	for (j = 0 ; j < n ; j++)
-	{
-		k = Pinv [j] ;
-		print (" $k") ;
-	}
-	print ("\n\n") ;
+  	/* print a character plot of the permuted matrix. */
+  	print ("\nPlot of permuted matrix pattern:\n") ;
+  	for (jnew = 0 ; jnew < n ; jnew++)
+  	{
+  		j = P [jnew] ;
+  		for (inew = 0 ; inew < n ; inew++) A [inew][jnew] = '.' ;
+  		for (p = Ap [j] ; p < Ap [j+1] ; p++)
+  		{
+  		    inew = Pinv [Ai [p]] ;
+  		    A [inew][jnew] = 'X' ;
+  		}
+  	}
+  	print ("    ") ;
+  	for (j = 0 ; j < n ; j++) print (" ${j % 10}") ;
+  	print ("\n") ;
+  	for (i = 0 ; i < n ; i++)
+  	{
+  		print ("$i: ") ;
+  		for (j = 0 ; j < n ; j++)
+  		{
+  			print (" ${A [i][j]}") ;
+  		}
+  		print ("\n") ;
+  	}
 
-	/* print a character plot of the permuted matrix. */
-	print ("\nPlot of permuted matrix pattern:\n") ;
-	for (jnew = 0 ; jnew < n ; jnew++)
-	{
-		j = P [jnew] ;
-		for (inew = 0 ; inew < n ; inew++) A [inew][jnew] = '.' ;
-		for (p = Ap [j] ; p < Ap [j+1] ; p++)
-		{
-		    inew = Pinv [Ai [p]] ;
-		    A [inew][jnew] = 'X' ;
-		}
-	}
-	print ("    ") ;
-	for (j = 0 ; j < n ; j++) print (" ${j % 10}") ;
-	print ("\n") ;
-	for (i = 0 ; i < n ; i++)
-	{
-		print ("$i: ") ;
-		for (j = 0 ; j < n ; j++)
-		{
-			print (" ${A [i][j]}") ;
-		}
-		print ("\n") ;
-	}
-
-	expect(AMD_OK, equals(result)) ;
+  	expect(AMD_OK, equals(result)) ;
+  });
 }
 
 //}

@@ -27,7 +27,7 @@ part of edu.ufl.cise.amd;
  */
 //public class Damd_control extends Damd_internal {
 
-void control(List<double> Control)
+void control(List<num> Control)
 {
 	double alpha ;
 	int aggressive ;
@@ -43,9 +43,8 @@ void control(List<double> Control)
 	aggressive = AMD_DEFAULT_AGGRESSIVE ;
 	}
 
-	PRINTF ("\nAMD version %d.%d.%d, %s: approximate minimum degree ordering\n" +
-	"    dense row parameter: %.2f\n", AMD_MAIN_VERSION, AMD_SUB_VERSION,
-	AMD_SUBSUB_VERSION, AMD_DATE, alpha) ;
+	PRINTF ("\nAMD version $AMD_MAIN_VERSION.$AMD_SUB_VERSION.$AMD_SUBSUB_VERSION, $AMD_DATE: approximate minimum degree ordering\n" +
+	"    dense row parameter: $alpha\n") ;
 
 	if (alpha < 0)
 	{
@@ -54,9 +53,8 @@ void control(List<double> Control)
 	else
 	{
 	PRINTF (
-	"    (rows with more than max (%.2f * sqrt (n), 16) entries are\n" +
-	"    considered \"dense\", and placed last in output permutation)\n",
-	alpha) ;
+	"    (rows with more than max ($alpha * sqrt (n), 16) entries are\n" +
+	"    considered \"dense\", and placed last in output permutation)\n") ;
 	}
 
 	if (aggressive != 0)
@@ -68,6 +66,6 @@ void control(List<double> Control)
 	PRINTF ("    aggressive absorption:  no\n") ;
 	}
 
-	PRINTF ("    size of AMD integer: %d\n\n", 4) ;  // sizeof (int)
+	PRINTF ("    size of AMD integer: 4\n\n") ;  // sizeof (int)
 }
 //}

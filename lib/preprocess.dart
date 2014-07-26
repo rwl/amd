@@ -53,7 +53,7 @@ void preprocess (int n, final List<int> Ap, final List<int> Ai,
 
 	int i, j, p, p2 ;
 
-	ASSERT (amd_valid (n, n, Ap, Ai) != AMD_INVALID) ;
+	ASSERT (valid (n, n, Ap, Ai) != AMD_INVALID) ;
 
 	/* ----------------------------------------------------------------- */
 	/* count the entries in each row of A (excluding duplicates) */
@@ -116,7 +116,7 @@ void preprocess (int n, final List<int> Ap, final List<int> Ai,
 
 	if (!NDEBUG)
 	{
-		ASSERT (amd_valid (n, n, Rp, Ri) == AMD_OK) ;
+		ASSERT (valid (n, n, Rp, Ri) == AMD_OK) ;
 		for (j = 0 ; j < n ; j++)
 		{
 		ASSERT (W [j] == Rp [j+1]) ;

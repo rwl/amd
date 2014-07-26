@@ -20,6 +20,8 @@
 
 library edu.ufl.cise.amd;
 
+import 'dart:math' as math;
+
 part 'aat.dart';
 part 'amd_1.dart';
 part 'amd_2.dart';

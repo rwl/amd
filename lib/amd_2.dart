@@ -452,7 +452,7 @@ int clear_flag (int wflg, int wbig, List<int> W, int n)
  */
 void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 		int pfree, List<int> Nv, List<int> Next, List<int> Last, List<int> Head,
-		List<int> Elen, List<int> Degree, List<int> W, List<double> Control, List<double> Info)
+		List<int> Elen, List<int> Degree, List<int> W, List<num> Control, List<num> Info)
 {
 	/* ----------------------------------------------------------------------------
 	 * LOCAL INTEGERS:
@@ -570,11 +570,11 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 	ASSERT (n > 0) ;
 
 	/* initialize output statistics */
-	lnz = 0 ;
-	ndiv = 0 ;
-	nms_lu = 0 ;
-	nms_ldl = 0 ;
-	dmax = 1 ;
+	lnz = 0.0 ;
+	ndiv = 0.0 ;
+	nms_lu = 0.0 ;
+	nms_ldl = 0.0 ;
+	dmax = 1.0 ;
 	me = EMPTY ;
 
 	mindeg = 0 ;
@@ -601,12 +601,11 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 	}
 	else
 	{
-	dense = (int) (alpha * sqrt (n)) ;
+	dense = (alpha * sqrt (n.toDouble())).toInt() ;
 	}
 	dense = MAX (16, dense) ;
 	dense = MIN (n,  dense) ;
-	AMD_DEBUG1 ("\n\nAMD (debug), alpha %.2f, aggr. "+ID+"\n",
-	alpha, aggressive) ;
+	AMD_DEBUG1 ("\n\nAMD (debug), alpha $alpha, aggr. $aggressive\n") ;
 
 	for (i = 0 ; i < n ; i++)
 	{
@@ -624,13 +623,13 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 
 	if (!NDEBUG)
 	{
-		AMD_DEBUG1 ("\n======Nel "+ID+" initial\n", nel) ;
-		amd_dump (n, Pe, Iw, Len, iwlen, pfree, Nv, Next, Last,
+		AMD_DEBUG1 ("\n======Nel $nel initial\n") ;
+		dump (n, Pe, Iw, Len, iwlen, pfree, Nv, Next, Last,
 			Head, Elen, Degree, W, -1) ;
 	}
 
 	/* initialize wflg */
-	wbig = Int_MAX - n ;
+	wbig = double.MAX_FINITE.toInt();//Int_MAX - n ;
 	wflg = clear_flag (0, wbig, W, n) ;
 
 	/* --------------------------------------------------------------------- */
@@ -669,7 +668,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 		 * version does not have this option.
 		 * ------------------------------------------------------------- */
 
-		AMD_DEBUG1 ("Dense node "+ID+" degree "+ID+"\n", i, deg) ;
+		AMD_DEBUG1 ("Dense node $i degree $deg\n") ;
 		ndense++ ;
 		Nv [i] = 0 ;		/* do not postorder this node */
 		Elen [i] = EMPTY ;
@@ -702,10 +701,10 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 
 	if (!NDEBUG)
 	{
-		AMD_DEBUG1 ("\n======Nel "+ID+"\n", nel) ;
+		AMD_DEBUG1 ("\n======Nel $nel\n") ;
 		if (AMD_debug >= 2)
 		{
-			amd_dump (n, Pe, Iw, Len, iwlen, pfree, Nv, Next,
+			dump (n, Pe, Iw, Len, iwlen, pfree, Nv, Next,
 				Last, Head, Elen, Degree, W, nel) ;
 		}
 	}
@@ -726,7 +725,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 	}
 	mindeg = deg ;
 	ASSERT (me >= 0 && me < n) ;
-	AMD_DEBUG1 ("=================me: "+ID+"\n", me) ;
+	AMD_DEBUG1 ("=================me: $me\n") ;
 
 	/* ----------------------------------------------------------------- */
 	/* remove chosen variable from link list */
@@ -834,7 +833,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 			e = me ;
 			pj = p ;
 			ln = slenme ;
-			AMD_DEBUG2 ("Search sv: "+ID+" "+ID+" "+ID+"\n", me,pj,ln) ;
+			AMD_DEBUG2 ("Search sv: $me $pj $ln\n") ;
 		}
 		else
 		{
@@ -843,7 +842,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 			ASSERT (e >= 0 && e < n) ;
 			pj = Pe [e] ;
 			ln = Len [e] ;
-			AMD_DEBUG2 ("Search element e "+ID+" in me "+ID+"\n", e,me) ;
+			AMD_DEBUG2 ("Search element e $e in me $me\n") ;
 			ASSERT (Elen [e] < EMPTY && W [e] > 0 && pj >= 0) ;
 		}
 		ASSERT (ln >= 0 && (ln == 0 || (pj >= 0 && pj < iwlen))) ;
@@ -860,8 +859,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 			i = Iw [pj++] ;
 			ASSERT (i >= 0 && i < n && (i == me || Elen [i] >= EMPTY));
 			nvi = Nv [i] ;
-			AMD_DEBUG2 (": "+ID+" "+ID+" "+ID+" "+ID+"\n",
-				i, Elen [i], Nv [i], wflg) ;
+			AMD_DEBUG2 (": $i ${Elen [i]} ${Nv [i]} $wflg\n") ;
 
 			if (nvi > 0)
 			{
@@ -915,7 +913,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 				j = FLIP (Iw [psrc++]) ;
 				if (j >= 0)
 				{
-					AMD_DEBUG2 ("Got object j: "+ID+"\n", j) ;
+					AMD_DEBUG2 ("Got object j: $j\n") ;
 					Iw [pdst] = Pe [j] ;
 					Pe [j] = pdst++ ;
 					lenj = Len [j] ;
@@ -949,7 +947,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 			degme += nvi ;
 			Nv [i] = -nvi ;
 			Iw [pfree++] = i ;
-			AMD_DEBUG2 ("     s: "+ID+"     nv "+ID+"\n", i, Nv [i]);
+			AMD_DEBUG2 ("     s: $i     nv ${Nv [i]}\n");
 
 			/* ------------------------------------------------- */
 			/* remove variable i from degree link list */
@@ -977,7 +975,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 		{
 			/* set tree pointer and flag to indicate element e is
 			 * absorbed into new element me (the parent of e is me) */
-			AMD_DEBUG1 (" Element "+ID+" => "+ID+"\n", e, me) ;
+			AMD_DEBUG1 (" Element $e => $me\n") ;
 			Pe [e] = FLIP (me) ;
 			W [e] = 0 ;
 		}
@@ -1002,8 +1000,8 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 
 	if (!NDEBUG)
 	{
-		AMD_DEBUG2 ("New element structure: length= "+ID+"\n", pme2-pme1+1) ;
-		for (pme = pme1 ; pme <= pme2 ; pme++) AMD_DEBUG3 (" "+ID+"", Iw[pme]);
+		AMD_DEBUG2 ("New element structure: length= ${pme2-pme1+1}\n") ;
+		for (pme = pme1 ; pme <= pme2 ; pme++) AMD_DEBUG3 (" ${Iw[pme]}");
 		AMD_DEBUG3 ("\n") ;
 	}
 
@@ -1040,7 +1038,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 		i = Iw [pme] ;
 		ASSERT (i >= 0 && i < n) ;
 		eln = Elen [i] ;
-		AMD_DEBUG3 (""+ID+" Elen "+ID+": \n", i, eln) ;
+		AMD_DEBUG3 ("$i Elen $eln: \n") ;
 		if (eln > 0)
 		{
 		/* note that Nv [i] has been negated to denote i in Lme: */
@@ -1052,7 +1050,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 			e = Iw [p] ;
 			ASSERT (e >= 0 && e < n) ;
 			we = W [e] ;
-			AMD_DEBUG4 ("    e "+ID+" we "+ID+" ", e, we) ;
+			AMD_DEBUG4 ("    e $e we $we ") ;
 			if (we >= wflg)
 			{
 			/* unabsorbed element e has been seen in this loop */
@@ -1088,7 +1086,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 	{
 		i = Iw [pme] ;
 		ASSERT (i >= 0 && i < n && Nv [i] < 0 && Elen [i] >= 0) ;
-		AMD_DEBUG2 ("Updating: i "+ID+" "+ID+" "+ID+"\n", i, Elen[i], Len [i]);
+		AMD_DEBUG2 ("Updating: i $i ${Elen[i]} ${Len [i]}\n");
 		p1 = Pe [i] ;
 		p2 = p1 + Elen [i] - 1 ;
 		pn = p1 ;
@@ -1118,13 +1116,12 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 				deg += dext ;
 				Iw [pn++] = e ;
 				hash += e ;
-				AMD_DEBUG4 (" e: "+ID+" hash = "+ID+"\n",e,hash) ;
+				AMD_DEBUG4 (" e: $e hash = $hash\n") ;
 			}
 			else
 			{
 				/* external degree of e is zero, absorb e into me*/
-				AMD_DEBUG1 (" Element "+ID+" =>"+ID+" (aggressive)\n",
-				e, me) ;
+				AMD_DEBUG1 (" Element $e =>$me (aggressive)\n") ;
 				ASSERT (dext == 0) ;
 				Pe [e] = FLIP (me) ;
 				W [e] = 0 ;
@@ -1147,7 +1144,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 			deg += dext ;
 			Iw [pn++] = e ;
 			hash += e ;
-			AMD_DEBUG4 ("	e: "+ID+" hash = "+ID+"\n",e,hash) ;
+			AMD_DEBUG4 ("	e: $e hash = $hash\n") ;
 			}
 		}
 		}
@@ -1176,8 +1173,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 			deg += nvj ;
 			Iw [pn++] = j ;
 			hash += j ;
-			AMD_DEBUG4 ("  s: "+ID+" hash "+ID+" Nv[j]= "+ID+"\n",
-				j, hash, nvj) ;
+			AMD_DEBUG4 ("  s: $j hash $hash Nv[j]= $nvj\n") ;
 		}
 		}
 
@@ -1217,7 +1213,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 		 * flop count analysis.  It also means that the post-ordering
 		 * is not an exact elimination tree post-ordering. */
 
-		AMD_DEBUG1 ("  MASS i "+ID+" => parent e "+ID+"\n", i, me) ;
+		AMD_DEBUG1 ("  MASS i $i => parent e $me\n") ;
 		Pe [i] = FLIP (me) ;
 		nvi = -Nv [i] ;
 		degme -= nvi ;
@@ -1260,8 +1256,8 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 		 * standard does not define a % b when a and/or b are negative.
 		 * That's why hash is defined as an unsigned int, to avoid this
 		 * problem. */
-		hash = Math.abs(hash) % n ;
-		ASSERT (((hash as int)) >= 0 && ((hash as int)) < n) ;
+		hash = hash.abs() % n ;
+		ASSERT (hash >= 0 && hash < n) ;
 
 		/* if the Hhead array is not used: */
 		j = Head [hash] ;
@@ -1309,7 +1305,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 	{
 		i = Iw [pme] ;
 		ASSERT (i >= 0 && i < n) ;
-		AMD_DEBUG2 ("Consider i "+ID+" nv "+ID+"\n", i, Nv [i]) ;
+		AMD_DEBUG2 ("Consider i $i nv ${Nv [i]}\n") ;
 		if (Nv [i] < 0)
 		{
 		/* i is a principal variable in Lme */
@@ -1350,7 +1346,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 		*/
 
 		ASSERT (i >= EMPTY && i < n) ;
-		AMD_DEBUG2 ("----i "+ID+" hash "+ID+"\n", i, hash) ;
+		AMD_DEBUG2 ("----i $i hash $hash\n") ;
 
 		while (i != EMPTY && Next [i] != EMPTY)
 		{
@@ -1386,7 +1382,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 			/* check if j and i have identical nonzero pattern */
 			/* ------------------------------------------------- */
 
-			AMD_DEBUG3 ("compare i "+ID+" and j "+ID+"\n", i,j) ;
+			AMD_DEBUG3 ("compare i $i and j $j\n") ;
 
 			/* check if i and j have the same Len and Elen */
 			ASSERT (Len [j] >= 0 && Elen [j] >= 0) ;
@@ -1404,7 +1400,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 				/* found it!  j can be absorbed into i */
 				/* --------------------------------------------- */
 
-				AMD_DEBUG1 ("found it! j "+ID+" => i "+ID+"\n", j,i);
+				AMD_DEBUG1 ("found it! j $j => i $i\n");
 				Pe [j] = FLIP (i) ;
 				/* both Nv [i] and Nv [j] are negated since they */
 				/* are in Lme, and the absolute values of each */
@@ -1453,7 +1449,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 		i = Iw [pme] ;
 		ASSERT (i >= 0 && i < n) ;
 		nvi = -Nv [i] ;
-		AMD_DEBUG3 ("Restore i "+ID+" "+ID+"\n", i, nvi) ;
+		AMD_DEBUG3 ("Restore i $i $nvi\n") ;
 		if (nvi > 0)
 		{
 		/* i is a principal variable in Lme */
@@ -1500,7 +1496,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 /* FINALIZE THE NEW ELEMENT */
 /* ========================================================================= */
 
-	AMD_DEBUG2 ("ME = "+ID+" DONE\n", me) ;
+	AMD_DEBUG2 ("ME = $me DONE\n") ;
 	Nv [me] = nvpiv ;
 	/* save the length of the list for the new element me */
 	Len [me] = p - pme1 ;
@@ -1527,8 +1523,8 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 
 	if (Info != null)
 	{
-		f = nvpiv ;
-		r = degme + ndense ;
+		f = nvpiv.toDouble() ;
+		r = (degme + ndense).toDouble() ;
 		dmax = MAX (dmax, f + r) ;
 
 		/* number of nonzeros in L (excluding the diagonal) */
@@ -1548,10 +1544,10 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 
 	if (!NDEBUG)
 	{
-		AMD_DEBUG2 ("finalize done nel "+ID+" n "+ID+"\n   ::::\n", nel, n) ;
+		AMD_DEBUG2 ("finalize done nel $nel n $n\n   ::::\n") ;
 		for (pme = Pe [me] ; pme <= Pe [me] + Len [me] - 1 ; pme++)
 		{
-			  AMD_DEBUG3 (" "+ID+"", Iw [pme]) ;
+			  AMD_DEBUG3 (" ${Iw [pme]}") ;
 		}
 		AMD_DEBUG3 ("\n") ;
 	}
@@ -1566,8 +1562,8 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 	{
 
 	/* count the work to factorize the ndense-by-ndense submatrix */
-	f = ndense ;
-	dmax = MAX (dmax, ndense as double) ;
+	f = ndense.toDouble() ;
+	dmax = MAX (dmax, ndense.toDouble()) ;
 
 	/* number of nonzeros in L (excluding the diagonal) */
 	lnzme = (f-1)*f/2 ;
@@ -1656,13 +1652,13 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 		AMD_DEBUG2 ("\nTree:\n") ;
 		for (i = 0 ; i < n ; i++)
 		{
-		AMD_DEBUG2 (" "+ID+" parent: "+ID+"   ", i, Pe [i]) ;
+		AMD_DEBUG2 (" $i parent: ${Pe [i]}   ") ;
 		ASSERT (Pe [i] >= EMPTY && Pe [i] < n) ;
 		if (Nv [i] > 0)
 		{
 			/* this is an element */
 			e = i ;
-			AMD_DEBUG2 (" element, size is "+ID+"\n", Elen [i]) ;
+			AMD_DEBUG2 (" element, size is ${Elen [i]}\n") ;
 			ASSERT (Elen [e] > 0) ;
 		}
 		AMD_DEBUG2 ("\n") ;
@@ -1672,8 +1668,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 		{
 		if (Nv [e] > 0)
 		{
-			AMD_DEBUG3 ("Element e= "+ID+" size "+ID+" nv "+ID+" \n", e,
-			Elen [e], Nv [e]) ;
+			AMD_DEBUG3 ("Element e= $e size ${Elen [e]} nv ${Nv [e]} \n") ;
 		}
 		}
 		AMD_DEBUG2 ("\nvariables:\n") ;
@@ -1682,10 +1677,10 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 		int cnt ;
 		if (Nv [i] == 0)
 		{
-			AMD_DEBUG3 ("i unordered: "+ID+"\n", i) ;
+			AMD_DEBUG3 ("i unordered: $i\n") ;
 			j = Pe [i] ;
 			cnt = 0 ;
-			AMD_DEBUG3 ("  j: "+ID+"\n", j) ;
+			AMD_DEBUG3 ("  j: $j\n") ;
 			if (j == EMPTY)
 			{
 			AMD_DEBUG3 ("	i is a dense variable\n") ;
@@ -1695,14 +1690,14 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 			ASSERT (j >= 0 && j < n) ;
 			while (Nv [j] == 0)
 			{
-				AMD_DEBUG3 ("	j : "+ID+"\n", j) ;
+				AMD_DEBUG3 ("	j : $j\n") ;
 				j = Pe [j] ;
-				AMD_DEBUG3 ("	j:: "+ID+"\n", j) ;
+				AMD_DEBUG3 ("	j:: $j\n") ;
 				cnt++ ;
 				if (cnt > n) break ;
 			}
 			e = j ;
-			AMD_DEBUG3 ("	got to e: "+ID+"\n", e) ;
+			AMD_DEBUG3 ("	got to e: $e\n") ;
 			}
 		}
 		}
@@ -1724,10 +1719,10 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 		 * was selected as pivot.
 		 * ------------------------------------------------------------- */
 
-		AMD_DEBUG1 ("Path compression, i unordered: "+ID+"\n", i) ;
+		AMD_DEBUG1 ("Path compression, i unordered: $i\n") ;
 		j = Pe [i] ;
 		ASSERT (j >= EMPTY && j < n) ;
-		AMD_DEBUG3 ("	j: "+ID+"\n", j) ;
+		AMD_DEBUG3 ("	j: $j\n") ;
 		if (j == EMPTY)
 		{
 		/* Skip a dense variable.  It has no parent. */
@@ -1738,14 +1733,14 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 		/* while (j is a variable) */
 		while (Nv [j] == 0)
 		{
-		AMD_DEBUG3 ("		j : "+ID+"\n", j) ;
+		AMD_DEBUG3 ("		j : $j\n") ;
 		j = Pe [j] ;
-		AMD_DEBUG3 ("		j:: "+ID+"\n", j) ;
+		AMD_DEBUG3 ("		j:: $j\n") ;
 		ASSERT (j >= 0 && j < n) ;
 		}
 		/* got to an element e */
 		e = j ;
-		AMD_DEBUG3 ("got to e: "+ID+"\n", e) ;
+		AMD_DEBUG3 ("got to e: $e\n") ;
 
 		/* -------------------------------------------------------------
 		 * traverse the path again from i to e, and compress the path
@@ -1758,7 +1753,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 		while (Nv [j] == 0)
 		{
 		jnext = Pe [j] ;
-		AMD_DEBUG3 ("j "+ID+" jnext "+ID+"\n", j, jnext) ;
+		AMD_DEBUG3 ("j $j jnext $jnext\n") ;
 		Pe [j] = e ;
 		j = jnext ;
 		ASSERT (j >= 0 && j < n) ;
@@ -1770,7 +1765,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 /* postorder the assembly tree */
 /* ========================================================================= */
 
-	amd_postorder (n, Pe, Nv, Elen,
+	postorder (n, Pe, Nv, Elen,
 	W,			/* output order */
 	Head, Next, Last) ;	/* workspace */
 
@@ -1844,7 +1839,7 @@ void amd_2 (int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen,
 	k = Next [i] ;
 	ASSERT (k >= 0 && k < n) ;
 	Last [k] = i ;
-	AMD_DEBUG2 ("   perm ["+ID+"] = "+ID+"\n", k, i) ;
+	AMD_DEBUG2 ("   perm [$k] = $i\n") ;
 	}
 
 }

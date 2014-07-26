@@ -47,7 +47,7 @@ int aat(int n,
 		final List<int> Ai,
 		List<int> Len,
 		List<int> Tp,
-		List<double> Info)
+		List<num> Info)
 {
 	int p1, p2, p, i, j, pj, pj2, k, nzdiag, nzboth, nz ;
 	double sym ;
@@ -65,9 +65,9 @@ int aat(int n,
 	/* clear the Info array, if it exists */
 	for (i = 0 ; i < AMD_INFO ; i++)
 	{
-		Info [i] = EMPTY as double ;
+		Info [i] = EMPTY ;
 	}
-	Info [AMD_STATUS] = AMD_OK as double ;
+	Info [AMD_STATUS] = AMD_OK ;
 	}
 
 	for (k = 0 ; k < n ; k++)
@@ -177,7 +177,7 @@ int aat(int n,
 	}
 	else
 	{
-	sym = (2 * (nzboth as double)) / ((nz - nzdiag) as double) ;
+	sym = (2 * nzboth) / (nz - nzdiag) ;
 	}
 
 	nzaat = 0 ;
@@ -191,12 +191,12 @@ int aat(int n,
 
 	if (Info != null)
 	{
-	Info [AMD_STATUS] = AMD_OK as double ;
-	Info [AMD_N] = n as double ;
-	Info [AMD_NZ] = nz as double ;
+	Info [AMD_STATUS] = AMD_OK ;
+	Info [AMD_N] = n ;
+	Info [AMD_NZ] = nz ;
 	Info [AMD_SYMMETRY] = sym ;	    /* symmetry of pattern of A */
-	Info [AMD_NZDIAG] = nzdiag as double ;	    /* nonzeros on diagonal of A */
-	Info [AMD_NZ_A_PLUS_AT] = nzaat as double ;   /* nonzeros in A+A' */
+	Info [AMD_NZDIAG] = nzdiag ;	    /* nonzeros on diagonal of A */
+	Info [AMD_NZ_A_PLUS_AT] = nzaat ;   /* nonzeros in A+A' */
 	}
 
 	return (nzaat) ;

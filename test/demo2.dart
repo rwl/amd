@@ -76,162 +76,163 @@ List<int> Ai = [
 	/* column 23: */    12, 11, 12, 23 ] ;
 
 main() {
+  test('', () {
+  	List<int> P = new List<int>(24) ;
+  	List<int> Pinv = new List<int>(24) ;
+  	int i, j, k, jnew, p, inew, result ;
+  	List<num> Control = new List<num>(AMD_CONTROL) ;
+  	List<num> Info = new List<num>(AMD_INFO) ;
+    List<List<String>> A = new List<List<String>>(24);//[24] ;
+    for (i = 0 ; i < n ; i++) A[i] = new List<String>(24);
 
-	List<int> P = new List<int>(24) ;
-	List<int> Pinv = new List<int>(24) ;
-	int i, j, k, jnew, p, inew, result ;
-	List<double> Control = new List<double>(AMD_CONTROL) ;
-	List<double> Info = new List<double>(AMD_INFO) ;
-  List<List<String>> A = new List<List<String>>(24);//[24] ;
-  for (i = 0 ; i < n ; i++) A[i] = new List<String>(24);
+  	NPRINT = false;
 
-	NPRINT = false;
+  	print ("AMD demo, with a jumbled version of the 24-by-24\n") ;
+  	print ("Harwell/Boeing matrix, can_24:\n") ;
 
-	print ("AMD demo, with a jumbled version of the 24-by-24\n") ;
-	print ("Harwell/Boeing matrix, can_24:\n") ;
+  	/* get the default parameters, and print them */
+  	defaults (Control) ;
+  	control  (Control) ;
 
-	/* get the default parameters, and print them */
-	defaults (Control) ;
-	control  (Control) ;
+  	/* print the input matrix */
+  	nz = Ap [n] ;
+  	print ("\nJumbled input matrix:  $n-by-$n, with $nz entries.\n" +
+  			"   Note that for a symmetric matrix such as this one, only the\n" +
+  			"   strictly lower or upper triangular parts would need to be\n" +
+  			"   passed to AMD, since AMD computes the ordering of A+A'.  The\n" +
+  			"   diagonal entries are also not needed, since AMD ignores them.\n" +
+  			"   This version of the matrix has jumbled columns and duplicate\n" +
+  			"   row indices.\n") ;
+  	for (j = 0 ; j < n ; j++)
+  	{
+  		print ("\nColumn: $j, number of entries: ${Ap [j+1] - Ap [j]}, with row indices in" +
+  				" Ai [${Ap [j]} ... ${Ap [j+1]-1}]:\n    row indices:") ;
+  		for (p = Ap [j] ; p < Ap [j+1] ; p++)
+  		{
+  			i = Ai [p] ;
+  			print (" $i") ;
+  		}
+  		print ("\n") ;
+  	}
 
-	/* print the input matrix */
-	nz = Ap [n] ;
-	print ("\nJumbled input matrix:  $n-by-$n, with $nz entries.\n" +
-			"   Note that for a symmetric matrix such as this one, only the\n" +
-			"   strictly lower or upper triangular parts would need to be\n" +
-			"   passed to AMD, since AMD computes the ordering of A+A'.  The\n" +
-			"   diagonal entries are also not needed, since AMD ignores them.\n" +
-			"   This version of the matrix has jumbled columns and duplicate\n" +
-			"   row indices.\n") ;
-	for (j = 0 ; j < n ; j++)
-	{
-		print ("\nColumn: $j, number of entries: ${Ap [j+1] - Ap [j]}, with row indices in" +
-				" Ai [${Ap [j]} ... ${Ap [j+1]-1}]:\n    row indices:") ;
-		for (p = Ap [j] ; p < Ap [j+1] ; p++)
-		{
-			i = Ai [p] ;
-			print (" $i") ;
-		}
-		print ("\n") ;
-	}
+  	/* print a character plot of the input matrix.  This is only reasonable
+  	 * because the matrix is small. */
+  	print ("\nPlot of (jumbled) input matrix pattern:\n") ;
+  	for (j = 0 ; j < n ; j++)
+  	{
+  		for (i = 0 ; i < n ; i++) A [i][j] = '.' ;
+  		for (p = Ap [j] ; p < Ap [j+1] ; p++)
+  		{
+  			i = Ai [p] ;
+  			A [i][j] = 'X' ;
+  		}
+  	}
+  	print ("    ") ;
+  	for (j = 0 ; j < n ; j++) print (" ${j % 10}") ;
+  	print ("\n") ;
+  	for (i = 0 ; i < n ; i++)
+  	{
+  		print ("$i: ") ;
+  		for (j = 0 ; j < n ; j++)
+  		{
+  			print (" ${A [i][j]}") ;
+  		}
+  		print ("\n") ;
+  	}
 
-	/* print a character plot of the input matrix.  This is only reasonable
-	 * because the matrix is small. */
-	print ("\nPlot of (jumbled) input matrix pattern:\n") ;
-	for (j = 0 ; j < n ; j++)
-	{
-		for (i = 0 ; i < n ; i++) A [i][j] = '.' ;
-		for (p = Ap [j] ; p < Ap [j+1] ; p++)
-		{
-			i = Ai [p] ;
-			A [i][j] = 'X' ;
-		}
-	}
-	print ("    ") ;
-	for (j = 0 ; j < n ; j++) print (" ${j % 10}") ;
-	print ("\n") ;
-	for (i = 0 ; i < n ; i++)
-	{
-		print ("$i: ") ;
-		for (j = 0 ; j < n ; j++)
-		{
-			print (" ${A [i][j]}") ;
-		}
-		print ("\n") ;
-	}
+  	/* print a character plot of the matrix A+A'. */
+  	print ("\nPlot of symmetric matrix to be ordered by amd_order:\n") ;
+  	for (j = 0 ; j < n ; j++)
+  	{
+  		for (i = 0 ; i < n ; i++) A [i][j] = '.' ;
+  	}
+  	for (j = 0 ; j < n ; j++)
+  	{
+  		A [j][j] = 'X' ;
+  		for (p = Ap [j] ; p < Ap [j+1] ; p++)
+  		{
+  			i = Ai [p] ;
+  			A [i][j] = 'X' ;
+  			A [j][i] = 'X' ;
+  		}
+  	}
+  	print ("    ") ;
+  	for (j = 0 ; j < n ; j++) print (" ${j % 10}") ;
+  	print ("\n") ;
+  	for (i = 0 ; i < n ; i++)
+  	{
+  		print ("$i: ") ;
+  		for (j = 0 ; j < n ; j++)
+  		{
+  			print (" ${A [i][j]}") ;
+  		}
+  		print ("\n") ;
+  	}
 
-	/* print a character plot of the matrix A+A'. */
-	print ("\nPlot of symmetric matrix to be ordered by amd_order:\n") ;
-	for (j = 0 ; j < n ; j++)
-	{
-		for (i = 0 ; i < n ; i++) A [i][j] = '.' ;
-	}
-	for (j = 0 ; j < n ; j++)
-	{
-		A [j][j] = 'X' ;
-		for (p = Ap [j] ; p < Ap [j+1] ; p++)
-		{
-			i = Ai [p] ;
-			A [i][j] = 'X' ;
-			A [j][i] = 'X' ;
-		}
-	}
-	print ("    ") ;
-	for (j = 0 ; j < n ; j++) print (" ${j % 10}") ;
-	print ("\n") ;
-	for (i = 0 ; i < n ; i++)
-	{
-		print ("$i: ") ;
-		for (j = 0 ; j < n ; j++)
-		{
-			print (" ${A [i][j]}") ;
-		}
-		print ("\n") ;
-	}
+  	/* order the matrix */
+  	result = order (n, Ap, Ai, P, Control, Info) ;
+  	print ("return value from amd_order: $result (should be $AMD_OK_BUT_JUMBLED)\n") ;
 
-	/* order the matrix */
-	result = order (n, Ap, Ai, P, Control, Info) ;
-	print ("return value from amd_order: $result (should be $AMD_OK_BUT_JUMBLED)\n") ;
+  	/* print the statistics */
+  	info (Info) ;
 
-	/* print the statistics */
-	info (Info) ;
+  	if (result != AMD_OK_BUT_JUMBLED)
+  	{
+  		print ("AMD failed\n") ;
+  		fail ('') ;
+  	}
 
-	if (result != AMD_OK_BUT_JUMBLED)
-	{
-		print ("AMD failed\n") ;
-		fail ('') ;
-	}
+  	/* print the permutation vector, P, and compute the inverse permutation */
+  	print ("Permutation vector:\n") ;
+  	for (k = 0 ; k < n ; k++)
+  	{
+  		/* row/column j is the kth row/column in the permuted matrix */
+  		j = P [k] ;
+  		Pinv [j] = k ;
+  		print (" $j") ;
+  	}
+  	print ("\n\n") ;
 
-	/* print the permutation vector, P, and compute the inverse permutation */
-	print ("Permutation vector:\n") ;
-	for (k = 0 ; k < n ; k++)
-	{
-		/* row/column j is the kth row/column in the permuted matrix */
-		j = P [k] ;
-		Pinv [j] = k ;
-		print (" $j") ;
-	}
-	print ("\n\n") ;
+  	print ("Inverse permutation vector:\n") ;
+  	for (j = 0 ; j < n ; j++)
+  	{
+  		k = Pinv [j] ;
+  		print (" $k") ;
+  	}
+  	print ("\n\n") ;
 
-	print ("Inverse permutation vector:\n") ;
-	for (j = 0 ; j < n ; j++)
-	{
-		k = Pinv [j] ;
-		print (" $k") ;
-	}
-	print ("\n\n") ;
+  	/* print a character plot of the permuted matrix. */
+  	print ("\nPlot of (symmetrized) permuted matrix pattern:\n") ;
+  	for (j = 0 ; j < n ; j++)
+  	{
+  		for (i = 0 ; i < n ; i++) A [i][j] = '.' ;
+  	}
+  	for (jnew = 0 ; jnew < n ; jnew++)
+  	{
+  		j = P [jnew] ;
+  		A [jnew][jnew] = 'X' ;
+  		for (p = Ap [j] ; p < Ap [j+1] ; p++)
+  		{
+  			inew = Pinv [Ai [p]] ;
+  			A [inew][jnew] = 'X' ;
+  			A [jnew][inew] = 'X' ;
+  		}
+  	}
+  	print ("    ") ;
+  	for (j = 0 ; j < n ; j++) print (" ${j % 10}") ;
+  	print ("\n") ;
+  	for (i = 0 ; i < n ; i++)
+  	{
+  		print ("$i: ") ;
+  		for (j = 0 ; j < n ; j++)
+  		{
+  			print (" ${A [i][j]}") ;
+  		}
+  		print ("\n") ;
+  	}
 
-	/* print a character plot of the permuted matrix. */
-	print ("\nPlot of (symmetrized) permuted matrix pattern:\n") ;
-	for (j = 0 ; j < n ; j++)
-	{
-		for (i = 0 ; i < n ; i++) A [i][j] = '.' ;
-	}
-	for (jnew = 0 ; jnew < n ; jnew++)
-	{
-		j = P [jnew] ;
-		A [jnew][jnew] = 'X' ;
-		for (p = Ap [j] ; p < Ap [j+1] ; p++)
-		{
-			inew = Pinv [Ai [p]] ;
-			A [inew][jnew] = 'X' ;
-			A [jnew][inew] = 'X' ;
-		}
-	}
-	print ("    ") ;
-	for (j = 0 ; j < n ; j++) print (" ${j % 10}") ;
-	print ("\n") ;
-	for (i = 0 ; i < n ; i++)
-	{
-		print ("$i: ") ;
-		for (j = 0 ; j < n ; j++)
-		{
-			print (" ${A [i][j]}") ;
-		}
-		print ("\n") ;
-	}
-
-	expect(AMD_OK_BUT_JUMBLED, equals(result)) ;
+  	expect(AMD_OK_BUT_JUMBLED, equals(result)) ;
+  });
 }
 
 //}

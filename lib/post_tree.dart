@@ -84,7 +84,7 @@ int post_tree (int root, int k, List<int> Child,
 	/* get head of stack */
 	ASSERT (head < nn) ;
 	i = Stack [head] ;
-	AMD_DEBUG1 ("head of stack "+ID+" \n", i) ;
+	AMD_DEBUG1 ("head of stack $i \n") ;
 	ASSERT (i >= 0 && i < nn) ;
 
 	if (Child [i] != EMPTY)
@@ -105,7 +105,7 @@ int post_tree (int root, int k, List<int> Child,
 		{
 		ASSERT (h > 0) ;
 		Stack [h--] = f ;
-		AMD_DEBUG1 ("push "+ID+" on stack\n", f) ;
+		AMD_DEBUG1 ("push $f on stack\n") ;
 		ASSERT (f >= 0 && f < nn) ;
 		}
 		ASSERT (Stack [h] == i) ;
@@ -118,7 +118,7 @@ int post_tree (int root, int k, List<int> Child,
 		/* the children of i (if there were any) are already ordered */
 		/* remove i from the stack and order it.  Front i is kth front */
 		head-- ;
-		AMD_DEBUG1 ("pop "+ID+" order "+ID+"\n", i, k) ;
+		AMD_DEBUG1 ("pop $i order $k\n") ;
 		Order [i] = k++ ;
 		ASSERT (k <= nn) ;
 	}
@@ -129,7 +129,7 @@ int post_tree (int root, int k, List<int> Child,
 		for (h = head ; h >= 0 ; h--)
 		{
 			int j = Stack [h] ;
-			AMD_DEBUG1 (" "+ID, j) ;
+			AMD_DEBUG1 (" $j") ;
 			ASSERT (j >= 0 && j < nn) ;
 		}
 		AMD_DEBUG1 ("\n\n") ;
