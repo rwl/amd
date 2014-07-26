@@ -17,26 +17,28 @@
  * License along with AMD; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
  */
+import 'package:unittest/unittest.dart';
+import 'package:amd/amd.dart';
 
-package edu.ufl.cise.amd.tdouble.test;
+//package edu.ufl.cise.amd.tdouble.test;
 
-import junit.framework.TestCase;
+//import junit.framework.TestCase;
 
-import static edu.ufl.cise.amd.tdouble.Damd_order.amd_order;
+//import static edu.ufl.cise.amd.tdouble.Damd_order.amd_order;
 
-public class Damd_simple extends TestCase {
+main() {
 
 	int n = 5 ;
-	int[] Ap = new int [] { 0,   2,       6,       10,  12, 14} ;
-	int[] Ai = new int [] { 0,1, 0,1,2,4, 1,2,3,4, 2,3, 1,4   } ;
-	int[] P = new int [5] ;
-	int[] sol = new int[] {0, 3, 2, 4, 1} ;
+	List<int> Ap = [ 0,   2,       6,       10,  12, 14] ;
+	List<int> Ai = [ 0,1, 0,1,2,4, 1,2,3,4, 2,3, 1,4   ] ;
+	List<int> P = new List<int>(5) ;
+	List<int> sol = [0, 3, 2, 4, 1] ;
 
-	public void test_amd_simple() {
+	test('', () {
 	    int k ;
-	    amd_order (n, Ap, Ai, P, null, null) ;
+	    order (n, Ap, Ai, P, null, null) ;
 	    for (k = 0 ; k < n ; k++)
-		    assertEquals(sol [k], P [k]) ;
-	}
+		    expect(sol [k], equals(P [k])) ;
+	});
 
 }

@@ -18,23 +18,23 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
  */
 
-package edu.ufl.cise.amd.tdouble;
+part of edu.ufl.cise.amd;
 
-public class Damd_defaults extends Damd_internal {
+//public class Damd_defaults extends Damd_internal {
 
-	public static void amd_defaults(double[] Control)
+void defaults(List<double> Control)
+{
+	int i ;
+
+	if (Control != null)
 	{
-		int i ;
-
-		if (Control != null)
-		{
-		for (i = 0 ; i < AMD_CONTROL ; i++)
-		{
-			Control [i] = 0 ;
-		}
-		Control [AMD_DENSE] = AMD_DEFAULT_DENSE ;
-		Control [AMD_AGGRESSIVE] = AMD_DEFAULT_AGGRESSIVE ;
-		}
+	for (i = 0 ; i < AMD_CONTROL ; i++)
+	{
+		Control [i] = 0 ;
 	}
-
+	Control [AMD_DENSE] = AMD_DEFAULT_DENSE ;
+	Control [AMD_AGGRESSIVE] = AMD_DEFAULT_AGGRESSIVE ;
+	}
 }
+
+//}
