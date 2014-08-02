@@ -1,7 +1,7 @@
 /**
  * AMD, Copyright (C) 2009-2011 by Timothy A. Davis, Patrick R. Amestoy,
  * and Iain S. Duff.  All Rights Reserved.
- * Copyright (C) 2011 Richard Lincoln
+ * Copyright (C) 2011-2014 Richard Lincoln
  *
  * AMD is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,24 +17,16 @@
  * License along with AMD; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
  */
-
 part of edu.ufl.cise.amd;
 
-//public class Damd_defaults extends Damd_internal {
+void defaults(List<num> Control) {
+  int i;
 
-void defaults(List<num> Control)
-{
-	int i ;
-
-	if (Control != null)
-	{
-	for (i = 0 ; i < AMD_CONTROL ; i++)
-	{
-		Control [i] = 0 ;
-	}
-	Control [AMD_DENSE] = AMD_DEFAULT_DENSE ;
-	Control [AMD_AGGRESSIVE] = AMD_DEFAULT_AGGRESSIVE ;
-	}
+  if (Control != null) {
+    for (i = 0; i < AMD_CONTROL; i++) {
+      Control[i] = 0;
+    }
+    Control[AMD_DENSE] = AMD_DEFAULT_DENSE;
+    Control[AMD_AGGRESSIVE] = AMD_DEFAULT_AGGRESSIVE;
+  }
 }
-
-//}

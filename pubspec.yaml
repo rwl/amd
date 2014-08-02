@@ -1,6 +1,6 @@
 name: amd
 version: 0.0.1
-author: Timothy A. Davis
+author: Richard Lincoln <r.w.lincoln@gmail.com>
 description: A set of routines for ordering a sparse matrix prior to Cholesky factorization.
 homepage: http://www.cise.ufl.edu/research/sparse/amd/
 dependencies:
