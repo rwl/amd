@@ -32,7 +32,7 @@ part of edu.ufl.cise.amd;
  * [Sibling]: size nn
  * [Stack]: size nn
  */
-void postorder(int nn, List<int> Parent, List<int> Nv, List<int> Fsize, List<int> Order, List<int> Child, List<int> Sibling, List<int> Stack) {
+void postorder(int nn, Int32List Parent, Int32List Nv, Int32List Fsize, Int32List Order, Int32List Child, Int32List Sibling, Int32List Stack) {
   int i, j, k, parent, frsize, f, fprev, maxfrsize, bigfprev, bigf, fnext;
   int nchild = 0;
 

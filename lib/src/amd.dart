@@ -41,6 +41,7 @@
 library edu.ufl.cise.amd;
 
 import 'dart:math' as math;
+import 'dart:typed_data' show Int32List;
 
 part 'aat.dart';
 part 'amd_1.dart';

@@ -22,8 +22,8 @@ part of edu.ufl.cise.amd;
 /**
  * User-callable AMD minimum degree ordering routine.
  */
-int order(int n, final List<int> Ap, final List<int> Ai, List<int> P, List<num> Control, List<num> Info) {
-  List<int> Len, Pinv, Rp, Ri, Cp, Ci;
+int order(int n, final Int32List Ap, final Int32List Ai, Int32List P, List<num> Control, List<num> Info) {
+  Int32List Len, Pinv, Rp, Ri, Cp, Ci;
   int nz, i, info, status, ok;
   int nzaat, slen;
   double mem = 0.0;
@@ -81,8 +81,8 @@ int order(int n, final List<int> Ap, final List<int> Ai, List<int> P, List<num> 
 
   /* allocate two size-n integer workspaces */
   try {
-    Len = new List<int>(n);
-    Pinv = new List<int>(n);
+    Len = new Int32List(n);
+    Pinv = new Int32List(n);
     mem += n;
     mem += n;
   } on OutOfMemoryError catch (e) {
@@ -96,8 +96,8 @@ int order(int n, final List<int> Ap, final List<int> Ai, List<int> P, List<num> 
     /* sort the input matrix and remove duplicate entries */
     AMD_DEBUG1(("Matrix is jumbled\n"));
     try {
-      Rp = new List<int>(n + 1);
-      Ri = new List<int>(MAX(nz, 1));
+      Rp = new Int32List(n + 1);
+      Ri = new Int32List(MAX(nz, 1));
       mem += (n + 1);
       mem += MAX(nz, 1);
     } on OutOfMemoryError catch (e) {

@@ -40,7 +40,7 @@ part of edu.ufl.cise.amd;
  * [W]: workspace of size n
  * [Flag]: workspace of size n
  */
-void preprocess(int n, final List<int> Ap, final List<int> Ai, List<int> Rp, List<int> Ri, List<int> W, List<int> Flag) {
+void preprocess(int n, final Int32List Ap, final Int32List Ai, Int32List Rp, Int32List Ri, Int32List W, Int32List Flag) {
   /* ----------------------------------------------------------------- */
   /* local variables */
   /* ----------------------------------------------------------------- */

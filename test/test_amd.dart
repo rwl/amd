@@ -18,6 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
  */
 import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:unittest/unittest.dart';
 import 'package:amd/amd.dart';
 
@@ -25,9 +27,9 @@ import 'package:amd/amd.dart';
  * triangular parts, and the diagonal entries.  Note that this matrix is
  * 0-based, with row and column indices in the range 0 to n-1. */
 const int n = 24;
-final List<int> Ap = [ 0, 9, 15, 21, 27, 33, 39, 48, 57, 61, 70, 76, 82, 88, 94, 100,
-    106, 110, 119, 128, 137, 143, 152, 156, 160 ];
-final List<int> Ai = [
+final Ap = new Int32List.fromList([ 0, 9, 15, 21, 27, 33, 39, 48, 57, 61, 70, 76, 82, 88, 94, 100,
+    106, 110, 119, 128, 137, 143, 152, 156, 160 ]);
+final Ai = new Int32List.fromList([
   /* column  0: */    0, 5, 6, 12, 13, 17, 18, 19, 21,
   /* column  1: */    1, 8, 9, 13, 14, 17,
   /* column  2: */    2, 6, 11, 20, 21, 22,
@@ -51,7 +53,7 @@ final List<int> Ai = [
   /* column 20: */    2, 10, 19, 20, 21, 22,
   /* column 21: */    0, 2, 6, 10, 11, 19, 20, 21, 22,
   /* column 22: */    2, 20, 21, 22,
-  /* column 23: */    6, 11, 12, 23 ] ;
+  /* column 23: */    6, 11, 12, 23 ]) ;
 
 /**
  * A simple test that illustrates the use of the interface
@@ -59,8 +61,8 @@ final List<int> Ai = [
  */
 main() {
   test('', () {
-    List<int> P = new List<int>(24);
-    List<int> Pinv = new List<int>(24);
+    Int32List P = new Int32List(24);
+    Int32List Pinv = new Int32List(24);
     int i, j, k, jnew, p, inew, result;
     List<num> Control = new List<num>(AMD_CONTROL);
     List<num> Info = new List<num>(AMD_INFO);

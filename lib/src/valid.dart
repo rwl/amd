@@ -48,7 +48,7 @@ part of edu.ufl.cise.amd;
  * [Ap]: column pointers of A, of size n_col+1
  * [Ai]: row indices of A, of size nz = Ap [n_col]
  */
-int valid(int n_row, int n_col, final List<int> Ap, final List<int> Ai) {
+int valid(int n_row, int n_col, final Int32List Ap, final Int32List Ai) {
   int nz,
       j,
       p1,

@@ -37,7 +37,7 @@ part of edu.ufl.cise.amd;
  * [Stack]: workspace of size nn
  * [nn]: nodes are in the range 0..nn-1.
  */
-int post_tree(int root, int k, List<int> Child, final List<int> Sibling, List<int> Order, List<int> Stack, [int nn = 0]) {
+int post_tree(int root, int k, Int32List Child, final Int32List Sibling, Int32List Order, Int32List Stack, [int nn = 0]) {
   int f, head, h, i;
 
   /*if (false) {

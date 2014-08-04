@@ -49,9 +49,9 @@ part of edu.ufl.cise.amd;
  * [Control]: input array of size AMD_CONTROL
  * [Info]: output array of size AMD_INFO
  */
-amd_1(int n, List<int> Ap, final List<int> Ai, List<int> P, List<int> Pinv, List<int> Len, int slen, List<num> Control, List<num> Info) {
+amd_1(int n, Int32List Ap, final Int32List Ai, Int32List P, Int32List Pinv, Int32List Len, int slen, List<num> Control, List<num> Info) {
   int i, j, k, p, pfree, iwlen, pj, p1, p2, pj2;
-  List<int> Iw, Pe, Nv, Head, Elen, Degree, W, Sp, Tp;//, s;
+  Int32List Iw, Pe, Nv, Head, Elen, Degree, W, Sp, Tp;//, s;
 
   /* --------------------------------------------------------------------- */
   /* construct the matrix for AMD_2 */
@@ -60,13 +60,13 @@ amd_1(int n, List<int> Ap, final List<int> Ai, List<int> P, List<int> Pinv, List
   ASSERT(n > 0);
 
   iwlen = slen - 6 * n;
-  Pe = new List<int>(n);
-  Nv = new List<int>(n);
-  Head = new List<int>(n);
-  Elen = new List<int>(n);
-  Degree = new List<int>(n);
-  W = new List<int>(n);
-  Iw = new List<int>(iwlen);
+  Pe = new Int32List(n);
+  Nv = new Int32List(n);
+  Head = new Int32List(n);
+  Elen = new Int32List(n);
+  Degree = new Int32List(n);
+  W = new Int32List(n);
+  Iw = new Int32List(iwlen);
 
   ASSERT(valid(n, n, Ap, Ai) == AMD_OK);
 

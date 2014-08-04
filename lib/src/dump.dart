@@ -81,7 +81,7 @@ void debug_init(String s) {
  * [W]: size n
  * [nel]:
  */
-void dump(int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen, int pfree, List<int> Nv, List<int> Next, List<int> Last, List<int> Head, List<int> Elen, List<int> Degree, List<int> W, int nel) {
+void dump(int n, Int32List Pe, Int32List Iw, Int32List Len, int iwlen, int pfree, Int32List Nv, Int32List Next, Int32List Last, Int32List Head, Int32List Elen, Int32List Degree, Int32List W, int nel) {
   if (!NDEBUG) {
     int i, pe, elen, nv, len, e, p, k, j, deg, w, cnt, ilast;
 

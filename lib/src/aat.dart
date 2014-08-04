@@ -29,7 +29,7 @@ part of edu.ufl.cise.amd;
  * [Len]: Len[j]: length of column j of A+A', excl diagonal
  * [Tp]: workspace of size n
  */
-int aat(int n, final List<int> Ap, final List<int> Ai, List<int> Len, List<int> Tp, List<num> Info) {
+int aat(int n, final Int32List Ap, final Int32List Ai, Int32List Len, Int32List Tp, List<num> Info) {
   int p1, p2, p, i, j, pj, pj2, k, nzdiag, nzboth, nz;
   double sym;
   int nzaat;

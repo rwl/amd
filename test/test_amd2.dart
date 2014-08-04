@@ -18,6 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
  */
 import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:unittest/unittest.dart';
 import 'package:amd/src/amd.dart';
 
@@ -26,9 +28,9 @@ import 'package:amd/src/amd.dart';
  * or both.  The diagonal entries are optional (some are missing).
  * There are many duplicate entries, which must be removed. */
 const n = 24;
-final List<int> Ap = [ 0, 9, 14, 20, 28, 33, 37, 44, 53, 58, 63, 63, 66, 69, 72, 75,
-    78, 82, 86, 91, 97, 101, 112, 112, 116 ];
-final List<int> Ai = [
+final Ap = new Int32List.fromList([ 0, 9, 14, 20, 28, 33, 37, 44, 53, 58, 63, 63, 66, 69, 72, 75,
+    78, 82, 86, 91, 97, 101, 112, 112, 116 ]);
+final Ai = new Int32List.fromList([
   /* column  0: */    0, 17, 18, 21, 5, 12, 5, 0, 13,
   /* column  1: */    14, 1, 8, 13, 17,
   /* column  2: */    2, 20, 11, 6, 11, 22,
@@ -52,7 +54,7 @@ final List<int> Ai = [
   /* column 20: */    22, 10, 20, 21,
   /* column 21: */    6, 2, 10, 19, 20, 11, 21, 22, 22, 22, 22,
   /* column 22: */
-  /* column 23: */    12, 11, 12, 23 ] ;
+  /* column 23: */    12, 11, 12, 23 ]) ;
 
 /**
  * A simple test that illustrates the use of the Dart interface
@@ -63,8 +65,8 @@ final List<int> Ai = [
  */
 main() {
   test('demo2', () {
-    List<int> P = new List<int>(24);
-    List<int> Pinv = new List<int>(24);
+    Int32List P = new Int32List(24);
+    Int32List Pinv = new Int32List(24);
     int i, j, k, jnew, p, inew, result;
     List<num> Control = new List<num>(AMD_CONTROL);
     List<num> Info = new List<num>(AMD_INFO);

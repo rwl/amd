@@ -25,7 +25,7 @@
  */
 part of edu.ufl.cise.amd;
 
-int clear_flag(int wflg, int wbig, List<int> W, int n) {
+int clear_flag(int wflg, int wbig, Int32List W, int n) {
   int x;
   if (wflg < 2 || wflg >= wbig) {
     for (x = 0; x < n; x++) {
@@ -413,7 +413,7 @@ int clear_flag(int wflg, int wbig, List<int> W, int n) {
  * [Control]: array of size AMD_CONTROL
  * [Info]: array of size AMD_INFO
  */
-void amd_2(int n, List<int> Pe, List<int> Iw, List<int> Len, int iwlen, int pfree, List<int> Nv, List<int> Next, List<int> Last, List<int> Head, List<int> Elen, List<int> Degree, List<int> W, List<num> Control, List<num> Info) {
+void amd_2(int n, Int32List Pe, Int32List Iw, Int32List Len, int iwlen, int pfree, Int32List Nv, Int32List Next, Int32List Last, Int32List Head, Int32List Elen, Int32List Degree, Int32List W, List<num> Control, List<num> Info) {
   /* ----------------------------------------------------------------------------
    * LOCAL INTEGERS:
    * ----------------------------------------------------------------------------
