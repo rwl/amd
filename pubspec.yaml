@@ -1,7 +1,9 @@
 name: amd
-version: 0.2.1
+version: 0.3.1
 author: Richard Lincoln <r.w.lincoln@gmail.com>
 description: A set of routines for ordering a sparse matrix prior to Cholesky factorization.
-homepage: http://www.cise.ufl.edu/research/sparse/amd/
+homepage: https://github.com/rwl/amd
 dependencies:
+  logging: '>=0.9.2 <0.10.0'
+dev_dependencies:
   unittest: '>=0.11.0+3 <0.12.0'
